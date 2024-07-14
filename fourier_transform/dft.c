@@ -26,13 +26,13 @@ SOFTWARE.
 #include <pthread.h>
 #include <math.h>
 #include <complex.h>
+#include <stdlib.h>
 
 struct ArrayAndItem {
   double complex *array;
   size_t size;
   double complex *transform;
   unsigned int index;
-  pthread_mutex_t *lock;
 };
 
 static void *calc_xn(void *arg) {
@@ -40,17 +40,12 @@ static void *calc_xn(void *arg) {
   double complex *transform = ((struct ArrayAndItem *)arg)->transform;
   unsigned int index = ((struct ArrayAndItem *)arg)->index;
   size_t size = ((struct ArrayAndItem *)arg)->size;
-  pthread_mutex_t *lock = ((struct ArrayAndItem *)arg)->lock;
   double complex total = 0;
 
   for (unsigned int j = 0; j < size; j++) {
     total += arr[j] * cexp(-I * 2 * M_PI * index / size);
   }
-
-  pthread_mutex_lock(lock);
   transform[index] = total;
-  pthread_mutex_unlock(lock);
-
   return NULL;
 }
 
@@ -59,9 +54,7 @@ int dft(double complex *data, size_t size, size_t n_threads) {
     return -1;
   }
   pthread_t threads[n_threads];
-  pthread_mutex_t lock;
-  pthread_mutex_init(&lock, NULL);
-  double complex transform[size];
+  double complex *transform = malloc(sizeof(double complex) * size);
   unsigned long count = 0;
   struct ArrayAndItem str[n_threads];
   unsigned int times = floor(size / n_threads);
@@ -70,7 +63,6 @@ int dft(double complex *data, size_t size, size_t n_threads) {
   for (unsigned int i = 0; i < n_threads; i++) {
     str[i].array = data;
     str[i].size = size;
-    str[i].lock = &lock;
     str[i].transform = transform;
   }
 
@@ -96,7 +88,6 @@ int dft(double complex *data, size_t size, size_t n_threads) {
   for (unsigned int i = 0; i < size; i++) {
     data[i] = transform[i];
   }
-
-  pthread_mutex_destroy(&lock);
+  free(transform);
   return 0;
 }

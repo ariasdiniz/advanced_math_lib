@@ -55,3 +55,4 @@ dkms.conf
 *.sh
 main.c
 main
+data.dat
