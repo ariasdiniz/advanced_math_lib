@@ -102,6 +102,10 @@ double kcorr(char *csv_file_path, char *col_sep, unsigned int csv_header);
 
 /*
 ----------------------------------------------------------------------------------
+Discrete Fourier Transform
 */
+#include <complex.h>
+
+int dft(double complex *data, size_t size, size_t n_threads);
 
 #endif  // __ADVANCED_MATH_LIB
