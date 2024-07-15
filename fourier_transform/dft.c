@@ -55,7 +55,6 @@ int dft(double complex *data, size_t size, size_t n_threads) {
   }
   pthread_t threads[n_threads];
   double complex *transform = malloc(sizeof(double complex) * size);
-  unsigned long count = 0;
   struct ArrayAndItem str[n_threads];
   unsigned int times = floor(size / n_threads);
   unsigned int remaining = size - (times * n_threads);
