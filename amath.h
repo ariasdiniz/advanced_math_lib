@@ -95,10 +95,9 @@ Kendall Correlation
 #include <csvparser.h>
 
 /*
-  Calculates the Kendall Correlation between the two first columns
-  of the given CSV file.
+  Calculates the Kendall Correlation between the two given arrays.
 */
-double kcorr(char *csv_file_path, char *col_sep, unsigned int csv_header);
+double kcorr(double *data1, double *data2, size_t size);
 
 /*
 ----------------------------------------------------------------------------------
@@ -106,6 +105,11 @@ Discrete Fourier Transform
 */
 #include <complex.h>
 
+/*
+  Performs a Discrete Fourier Transform over the array data.
+  This method modifies the original array. Returns 0 if successfull,
+  Return -1 if not.
+*/
 int dft(double complex *data, size_t size, size_t n_threads);
 
 #endif  // __ADVANCED_MATH_LIB
