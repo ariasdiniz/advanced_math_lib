@@ -66,17 +66,15 @@ Individuals *generate_individuals(
 void destroy_individuals(Individuals *individuals);
 
 /*
-  This function get two high ranked (by fitness) individuals, take the 
-  mean of ther weights and substitute in a low ranked individual,
-  effectively "killing" the low ranked individual and creating a new one.
+  This function get two high ranked (by fitness) individuals, take the mean of ther weights and substitute 
+  in a low ranked individual, effectively "killing" the low ranked individual and creating a new one.
   This is done for the best (n_individuals * reproduction_rate) individuals.
 */
 int reproduce(Individuals *individuals);
 
 /*
-  This function interates over every weight of every individual
-  and slightly modify the weight if the randomized number is
-  smaller or equal than the mutation chance.
+  This function interates over every weight of every individual and slightly modify the weight if the 
+  randomized number is smaller or equal than the mutation chance.
 */
 int mutate(Individuals *individuals);
 
@@ -106,9 +104,8 @@ Discrete Fourier Transform
 #include <complex.h>
 
 /*
-  Performs a Discrete Fourier Transform over the array data.
-  This method modifies the original array. Returns 0 if successfull,
-  Return -1 if not.
+  Performs a Discrete Fourier Transform over the array data. This method modifies the original array. 
+  Use n_threads > 1 for multithreading. Returns 0 if successfull, Return -1 if not.
 */
 int dft(double complex *data, size_t size, size_t n_threads);
 
