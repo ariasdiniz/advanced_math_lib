@@ -16,14 +16,14 @@ static void *calc_xn(void *arg) {
   struct ArrayAndItem *temp = ((struct ArrayAndItem *)arg);
   double complex *arr = temp->array;
   double complex *transform = temp->transform;
-  size_t start = temp->index_start;
-  size_t end = temp->index_end;
+  unsigned long start = temp->index_start;
+  unsigned long end = temp->index_end;
   size_t size = temp->size;
   double complex total;
 
-  for (unsigned int k = start; k < end; k++) {
+  for (unsigned long k = start; k < end; k++) {
     total = 0;
-    for (unsigned int j = 0; j < size; j++) {
+    for (unsigned long j = 0; j < size; j++) {
       total += arr[j] * cexp(-I * 2 * M_PI * k * j / size);
     }
     transform[k] = total;
@@ -37,6 +37,11 @@ int dft(double complex *data, size_t size, size_t n_threads) {
   }
   pthread_t threads[n_threads];
   double complex *transform = malloc(sizeof(double complex) * size);
+
+  if (transform == NULL) {
+    return -1;
+  }
+
   struct ArrayAndItem str[n_threads];
   unsigned int times = floor(size / n_threads);
   unsigned int remaining = size - (times * n_threads);
@@ -51,7 +56,12 @@ int dft(double complex *data, size_t size, size_t n_threads) {
     str[k].index_start = k * times;
     str[k].index_end = (k + 1) * times;
     if (k == n_threads - 1) str[k].index_end += remaining;
-    pthread_create(&threads[k], NULL, calc_xn, &str[k]);
+
+    if (pthread_create(&threads[k], NULL, calc_xn, &str[k]) != 0) {
+      free(transform);
+      fprintf(stderr, "Error creating thread for DFT calculation.\n");
+      exit(EXIT_FAILURE);
+    }
   }
   
   for (unsigned int k = 0; k < n_threads; k++) {
@@ -61,6 +71,7 @@ int dft(double complex *data, size_t size, size_t n_threads) {
   for (unsigned int i = 0; i < size; i++) {
     data[i] = transform[i];
   }
+
   free(transform);
   return 0;
 }
