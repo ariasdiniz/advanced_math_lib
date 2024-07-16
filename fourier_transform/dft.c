@@ -19,7 +19,7 @@ static void *calc_xn(void *arg) {
   double complex total = 0;
 
   for (unsigned int j = 0; j < size; j++) {
-    total += arr[j] * cexp(-I * 2 * M_PI * index / size);
+    total += arr[j] * cexp(-I * 2 * M_PI * index * j / size);
   }
   transform[index] = total;
   return NULL;
