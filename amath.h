@@ -94,6 +94,7 @@ Kendall Correlation
 
 /*
   Calculates the Kendall Correlation between the two given arrays.
+  Returns -2 on error.
 */
 double kcorr(double *data1, double *data2, size_t size);
 

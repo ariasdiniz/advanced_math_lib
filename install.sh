@@ -39,6 +39,7 @@ if [[ $? != 0 ]]; then
   exit 1
 fi
 
+rm -r lib$1.so
 sudo cp $1.h /usr/include
 
 if [[ $? != 0 ]]; then

@@ -26,6 +26,7 @@ static double tau(Data *data) {
 
 double kcorr(double *data1, double *data2, size_t size) {
   Data *data = malloc(sizeof(Data));
+  if (data == NULL) return -2.0;
   data->n = size;
   data->x = data1;
   data->y = data2;

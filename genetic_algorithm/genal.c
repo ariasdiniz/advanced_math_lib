@@ -3,10 +3,7 @@
 #include <math.h>
 #include "../amath.h"
 
-static float random_number(double min, double max) {
-  float scale = rand() / (float)RAND_MAX;
-  return min + scale * (max - min);
-}
+#define RANDOM_NUMBER_FUNC(min, max) ( min + ( rand() / (float)RAND_MAX ) * (max - min) )
 
 static void destroy_individual_array(Individual **individuals, unsigned int n_individuals) {
   for (int i = 0; i < n_individuals; i++) {
@@ -31,14 +28,9 @@ static void reproduction(Individual *ind1, Individual *ind2, Individual *result,
   }
 }
 
-static float mutation_prob() {
-  return rand() / (float)RAND_MAX;
-}
+#define MUTATION_PROB_FUNC() ( rand() / (float)RAND_MAX )
 
-static float mutation(double mutation_range) {
-  float scale = mutation_prob() * mutation_range;
-  return (-mutation_range / 2.0) + scale;
-}
+#define MUTATION_FUNC(mutation_range) ( ( -mutation_range / 2.0 ) + ( MUTATION_PROB_FUNC() * mutation_range ) )
 
 Individuals *generate_individuals(
   unsigned int n_individuals,
@@ -84,7 +76,7 @@ Individuals *generate_individuals(
   for (int i = 0; i < n_individuals; i++) {
     individual_array[i]->weights = malloc(sizeof(float) * number_weights);
     for (int j = 0; j < number_weights; j++) {
-      individual_array[i]->weights[j] = random_number(min, max);
+      individual_array[i]->weights[j] = RANDOM_NUMBER_FUNC(min, max);
     }
     individual_array[i]->fitness = 0.0;
   }
@@ -116,8 +108,8 @@ int mutate(Individuals *individuals) {
   }
   for (unsigned int i = 0; i < individuals->n_individuals; i++) {
     for (unsigned int j = 0; j < individuals->number_weights; j++) {
-      if (mutation_prob() <= individuals->mutation_prob) {
-        individuals->individual_array[i]->weights[j] += mutation(individuals->mutation_range);
+      if (MUTATION_PROB_FUNC() <= individuals->mutation_prob) {
+        individuals->individual_array[i]->weights[j] += MUTATION_FUNC(individuals->mutation_range);
       }
     }
   }
