@@ -60,7 +60,6 @@ int dft(double complex *data, size_t size, size_t n_threads) {
     if (pthread_create(&threads[k], NULL, calc_xn, &str[k]) != 0) {
       free(transform);
       fprintf(stderr, "Error creating thread for DFT calculation.\n");
-      exit(EXIT_FAILURE);
     }
   }
   
