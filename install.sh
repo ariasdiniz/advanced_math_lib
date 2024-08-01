@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # This script compiles and install the http_client library. 
 # Use it only if your Operating System is Linux and you have the gcc compiler installed.
 
