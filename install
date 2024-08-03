@@ -10,10 +10,7 @@ check_error () {
   fi
 }
 
-if [[ "$1" == "" ]]; then
-  echo "Usage: ./install.sh <library_name>"
-  exit 1
-fi
+lib_name='amath'
 
 directory="."
 all_files=""
@@ -26,21 +23,21 @@ for file in "${files[@]}"; do
   all_files+="$file.o "
 done
 
-gcc -shared -o lib$1.so $all_files
+gcc -shared -o lib$lib_name.so $all_files
 check_error "Error creating shared object."
 
 for file in "${files[@]}"; do
   rm -r $file.o
 done
 
-echo "Compilation of $1.so finished."
+echo "Compilation of lib$lib_name.so finished."
 
-sudo cp lib$1.so /usr/lib
+sudo cp lib$lib_name.so /usr/lib
 check_error "Error copying shared object to /usr/lib." 
 
-rm -r lib$1.so
-sudo cp $1.h /usr/include
+rm -r lib$lib_name.so
+sudo cp $lib_name.h /usr/include
 check_error "Error copying header file to /usr/include."
 
-echo "Installation of $1.so finished."
+echo "Installation of lib$lib_name finished."
 
