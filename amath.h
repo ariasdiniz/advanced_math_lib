@@ -126,9 +126,10 @@ Median
 */
 
 /* Calculates the median of the first n_elements of the values in the 1D array data.
+   If sorted is 0, the data will be sorted using QuickSort.
    Return 0 if data is NULL or if n_elements <= 0.
 */
-double median(double *data, size_t n_elements);
+double median(double *data, size_t n_elements, unsigned int sorted);
 
 /*
 ----------------------------------------------------------------------------------

@@ -2,6 +2,15 @@
 #include <math.h>
 #include <stdlib.h>
 
+static int sort_function(const void *a, const void *b) {
+  double first = *(double *)a;
+  double second = *(double *)b;
+
+  if (first > second) return -1;
+  if (second > first) return 1;
+  return 0;
+}
+
 double mean(double *data, size_t n_elements) {
   if (data == NULL || n_elements <= 0) return 0;
   double mean = 0;
@@ -11,9 +20,10 @@ double mean(double *data, size_t n_elements) {
   return mean / n_elements;
 }
 
-double median(double *data, size_t n_elements) {
+double median(double *data, size_t n_elements, unsigned int sorted) {
   if (data == NULL || n_elements <= 0) return 0;
   double median = 0;
+  if (!sorted) qsort(data, n_elements, sizeof(double), sort_function);
   if (n_elements % 2 > 0) {
     return data[(n_elements - 1) / 2];
   } else {
