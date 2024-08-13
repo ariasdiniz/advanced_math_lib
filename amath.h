@@ -110,4 +110,25 @@ Discrete Fourier Transform
 */
 int dft(double complex *data, size_t size, size_t n_threads);
 
+/*
+----------------------------------------------------------------------------------
+Mean
+*/
+
+/* Calculates the mean of the first n_elements of the values in the 1D array data.
+   Return 0 if data is NULL or if n_elements <= 0.
+*/
+double mean(double *data, size_t n_elements);
+
+/*
+----------------------------------------------------------------------------------
+Standard Deviation
+*/
+
+/*
+  Calculates the Standard Deviation of the first n_elements of the 1D array data.
+  Return 0 if data is NULL or if n_elements <= 0.
+*/
+double stdev(double *data, size_t n_elements);
+
 #endif  // __ADVANCED_MATH_LIB
