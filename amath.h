@@ -122,6 +122,16 @@ double mean(double *data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
+Median
+*/
+
+/* Calculates the median of the first n_elements of the values in the 1D array data.
+   Return 0 if data is NULL or if n_elements <= 0.
+*/
+double median(double *data, size_t n_elements);
+
+/*
+----------------------------------------------------------------------------------
 Standard Deviation
 */
 

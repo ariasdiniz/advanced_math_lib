@@ -11,6 +11,16 @@ double mean(double *data, size_t n_elements) {
   return mean / n_elements;
 }
 
+double median(double *data, size_t n_elements) {
+  if (data == NULL || n_elements <= 0) return 0;
+  double median = 0;
+  if (n_elements % 2 > 0) {
+    return data[(n_elements - 1) / 2];
+  } else {
+    return (data[(n_elements - 1) / 2] + data[((n_elements - 1) / 2) + 1]) / 2;
+  }
+}
+
 double stdev(double *data, size_t n_elements) {
   if (data == NULL || n_elements <= 0) return 0;
   double data_mean = mean(data, n_elements), square_sigma = 0;
