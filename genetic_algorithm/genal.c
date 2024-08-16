@@ -30,7 +30,7 @@ static void reproduction(Individual *ind1, Individual *ind2, Individual *result,
 
 #define MUTATION_PROB_FUNC() ( rand() / (float)RAND_MAX )
 
-#define MUTATION_FUNC(mutation_range) ( ( -mutation_range / 2.0 ) + ( MUTATION_PROB_FUNC() * mutation_range ) )
+#define MUTATION_FUNC(mutation_range) ( ( -(mutation_range) / 2.0 ) + ( MUTATION_PROB_FUNC() * (mutation_range) ) )
 
 Individuals *generate_individuals(
   unsigned int n_individuals,
