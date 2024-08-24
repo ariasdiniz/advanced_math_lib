@@ -142,4 +142,16 @@ Standard Deviation
 */
 double stdev(double *data, size_t n_elements);
 
+/*
+----------------------------------------------------------------------------------
+Normal Distribution
+*/
+
+/*
+  Calculates the Normal Distribution of the first n_elements of the 1D array data.
+  Return a new 1D array with the normalization, or NULL on error. Don't forget to
+  free the memory of the result after usage.
+*/
+double *ndist(double *data, size_t n_elements);
+
 #endif  // __ADVANCED_MATH_LIB
