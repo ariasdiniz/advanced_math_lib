@@ -9,7 +9,7 @@ struct calc_segment {
   double normalization_factor, avg, squared_dev;
 };
 
-#define calculate_point(x, norm, avg, sqdev) ((norm) * exp(-pow(((x) - (avg)), 2) / (2 * (sqdev))))
+#define calculate_ndist_point(x, norm, avg, sqdev) ((norm) * exp(-pow(((x) - (avg)), 2) / (2 * (sqdev))))
 
 void *calculation_segment(void *data) {
   struct calc_segment *segment = (struct calc_segment *)data;
@@ -18,13 +18,13 @@ void *calculation_segment(void *data) {
   double *normalized_data = segment->normalized_data;
   double norm_factor = segment->normalization_factor, avg = segment->avg, squared_dev = segment->squared_dev;
   for (size_t i = lim_a; i < lim_b; i++) {
-    segment->normalized_data[i] = calculate_point(d[i], norm_factor, avg, squared_dev);
+    segment->normalized_data[i] = calculate_ndist_point(d[i], norm_factor, avg, squared_dev);
   }
   return NULL;
 }
 
 double *ndist(double *data, size_t n_elements, size_t n_threads) {
-  if (data == NULL || n_elements == 0) return NULL;
+  if (data == NULL || n_elements == 0 || n_threads == 0) return NULL;
 
   double *ndata = malloc(sizeof(double) * n_elements);
   if (ndata == NULL) return NULL;
@@ -58,4 +58,54 @@ double *ndist(double *data, size_t n_elements, size_t n_threads) {
     pthread_join(threads[i], NULL);
   }
   return ndata;
+}
+
+struct pdist_segment {
+  size_t interval_a, interval_b;
+  double lambda;
+  int *data;
+  double *pdist;
+};
+
+#define calculate_pdist_point(k, lambda) (pow((lambda), (k)) * exp(-(lambda)) / amath_factorial(k))
+
+void *calculate_pdist_segment(void *data) {
+  struct pdist_segment *segment = (struct pdist_segment *)data;
+  size_t interval_a = segment->interval_a, interval_b = segment->interval_b;
+  double lambda = segment->lambda;
+  int *d = segment->data;
+  for (size_t i = interval_a; i < interval_b; i++) {
+    segment->pdist[i] = calculate_pdist_point(d[i], lambda);
+  }
+  return NULL;
+}
+
+double *pdist(int *data, double lambda, size_t n_elements, size_t n_threads) {
+  if (data == NULL || n_elements == 0 || n_threads == 0) return NULL;
+
+  double *pdist = malloc(sizeof(double) * n_elements);
+  if (pdist == NULL) return NULL;
+
+  pthread_t threads[n_threads];
+  struct pdist_segment segments[n_threads];
+  int step = n_elements / n_threads;
+  for (size_t i = 0; i < n_threads; i++) {
+    segments[i].data = data;
+    segments[i].lambda = lambda;
+    segments[i].pdist = pdist;
+    segments[i].interval_a = step * i;
+    if (i < n_threads - 1) {
+      segments[i].interval_b = step + step * i;
+    } else {
+      segments[i].interval_b = n_elements;
+    }
+    if (pthread_create(&threads[i], NULL, calculate_pdist_segment, &segments[i]) != 0) {
+      free(pdist);
+      return NULL;
+    }
+  }
+  for (size_t i = 0; i < n_threads; i++) {
+    pthread_join(threads[i], NULL);
+  }
+  return pdist;
 }

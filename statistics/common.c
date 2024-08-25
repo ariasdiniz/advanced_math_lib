@@ -43,3 +43,8 @@ double stdev(double *data, size_t n_elements) {
   }
   return sqrt(square_sigma / n_elements);
 }
+
+unsigned long long amath_factorial(unsigned int x) {
+  if (x == 0) return 1;
+  return amath_factorial(x - 1) * x;
+}

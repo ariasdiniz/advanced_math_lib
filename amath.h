@@ -144,14 +144,38 @@ double stdev(double *data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
+Factorial
+*/
+
+/*
+  Calculates the factorial of x.
+*/
+unsigned long long amath_factorial(unsigned int x);
+
+/*
+----------------------------------------------------------------------------------
 Normal Distribution
 */
 
 /*
-  Calculates the Normal Distribution of the first n_elements of the 1D array data.
-  Return a new 1D array with the normalization, or NULL on error. Don't forget to
+  Calculates the Normal Distribution of the first n_elements of the 1D array data,
+  using n_threads from the system to concurrently calculate the values.
+  Return a new 1D array with the distribution, or NULL on error. Don't forget to
   free the memory of the result after usage.
 */
 double *ndist(double *data, size_t n_elements, size_t n_threads);
+
+/*
+----------------------------------------------------------------------------------
+Poisson Distribution
+*/
+
+/*
+  Calculates the Poisson Distribution of the first n_elements of the 1D array data,
+  using n_threads from the system to concurrently calculate the values.
+  Return a new 1D array with the distribution, or NULL on error. Don't forget to
+  free the memory of the result after usage.
+*/
+double *pdist(int *data, double lambda, size_t n_elements, size_t n_threads);
 
 #endif  // __ADVANCED_MATH_LIB
