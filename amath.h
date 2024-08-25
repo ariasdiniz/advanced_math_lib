@@ -90,7 +90,6 @@ Kendall Correlation
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <csvparser.h>
 
 /*
   Calculates the Kendall Correlation between the two given arrays.
@@ -156,7 +155,7 @@ Factorial
 /*
   Calculates the factorial of x.
 */
-unsigned long long amath_factorial(unsigned int x);
+unsigned long long amath_factorial(unsigned long long x);
 
 /*
 ----------------------------------------------------------------------------------
