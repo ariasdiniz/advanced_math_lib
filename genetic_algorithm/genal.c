@@ -32,7 +32,7 @@ static void reproduction(Individual *ind1, Individual *ind2, Individual *result,
 
 #define MUTATION_FUNC(mutation_range) ( ( -(mutation_range) / 2.0 ) + ( MUTATION_PROB_FUNC() * (mutation_range) ) )
 
-Individuals *generate_individuals(
+Individuals *amath_generate_individuals(
   unsigned int n_individuals,
   double mutation_prob,
   double mutation_range,
@@ -83,12 +83,12 @@ Individuals *generate_individuals(
   return individuals;
 }
 
-void destroy_individuals(Individuals *individuals) {
+void amath_destroy_individuals(Individuals *individuals) {
   destroy_individual_array(individuals->individual_array, individuals->n_individuals);
   free(individuals);
 }
 
-int reproduce(Individuals *individuals) {
+int amath_reproduce(Individuals *individuals) {
   if (individuals == NULL) {
     return -1;
   }
@@ -102,7 +102,7 @@ int reproduce(Individuals *individuals) {
   return 0;
 }
 
-int mutate(Individuals *individuals) {
+int amath_mutate(Individuals *individuals) {
   if (individuals == NULL || individuals->number_weights < 1) {
     return -1;
   }
@@ -116,7 +116,7 @@ int mutate(Individuals *individuals) {
   return 0;
 }
 
-int fit(Individuals *individuals, fitfunc func) {
+int amath_fit(Individuals *individuals, fitfunc func) {
   if (individuals == NULL) {
     return -1;
   }

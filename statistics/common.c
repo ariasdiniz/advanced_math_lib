@@ -11,7 +11,7 @@ static int sort_function(const void *a, const void *b) {
   return 0;
 }
 
-double mean(double *data, size_t n_elements) {
+double amath_mean(double *data, size_t n_elements) {
   if (data == NULL || n_elements == 0) return 0;
 
   double mean = 0;
@@ -21,7 +21,7 @@ double mean(double *data, size_t n_elements) {
   return mean / n_elements;
 }
 
-double median(double *data, size_t n_elements, unsigned int sorted) {
+double amath_median(double *data, size_t n_elements, unsigned int sorted) {
   if (data == NULL || n_elements <= 0) return 0;
 
   double median = 0;
@@ -34,10 +34,10 @@ double median(double *data, size_t n_elements, unsigned int sorted) {
   }
 }
 
-double stdev(double *data, size_t n_elements) {
+double amath_stdev(double *data, size_t n_elements) {
   if (data == NULL || n_elements == 0) return 0;
   
-  double data_mean = mean(data, n_elements), square_sigma = 0;
+  double data_mean = amath_mean(data, n_elements), square_sigma = 0;
   for (size_t i = 0; i < n_elements; i++) {
     square_sigma += pow(data[i] - data_mean, 2);
   }

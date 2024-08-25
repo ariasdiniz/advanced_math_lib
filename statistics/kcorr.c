@@ -24,7 +24,7 @@ static double tau(Data *data) {
   return (concordant - discordant) / (double)total_pairs;
 }
 
-double kcorr(double *data1, double *data2, size_t size) {
+double amath_kcorr(double *data1, double *data2, size_t size) {
   Data *data = malloc(sizeof(Data));
   if (data == NULL) return -2.0;
   data->n = size;

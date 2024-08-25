@@ -23,7 +23,7 @@ void *calculation_segment(void *data) {
   return NULL;
 }
 
-double *ndist(double *data, size_t n_elements, size_t n_threads) {
+double *amath_ndist(double *data, size_t n_elements, size_t n_threads) {
   if (data == NULL || n_elements == 0 || n_threads == 0) return NULL;
 
   double *ndata = malloc(sizeof(double) * n_elements);
@@ -31,8 +31,8 @@ double *ndist(double *data, size_t n_elements, size_t n_threads) {
 
   struct calc_segment temp_data[n_threads];
 
-  double avg = mean(data, n_elements);
-  double deviation = stdev(data, n_elements);
+  double avg = amath_mean(data, n_elements);
+  double deviation = amath_stdev(data, n_elements);
   double normalization_factor = 1 / sqrt(2 * M_PI * pow(deviation, 2));
   double squared_dev = pow(deviation, 2);
   pthread_t threads[n_threads];
@@ -80,7 +80,7 @@ void *calculate_pdist_segment(void *data) {
   return NULL;
 }
 
-double *pdist(int *data, double lambda, size_t n_elements, size_t n_threads) {
+double *amath_pdist(int *data, double lambda, size_t n_elements, size_t n_threads) {
   if (data == NULL || n_elements == 0 || n_threads == 0) return NULL;
 
   double *pdist = malloc(sizeof(double) * n_elements);
