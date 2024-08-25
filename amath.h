@@ -152,6 +152,6 @@ Normal Distribution
   Return a new 1D array with the normalization, or NULL on error. Don't forget to
   free the memory of the result after usage.
 */
-double *ndist(double *data, size_t n_elements);
+double *ndist(double *data, size_t n_elements, size_t n_threads);
 
 #endif  // __ADVANCED_MATH_LIB
