@@ -11,6 +11,11 @@ struct calc_segment {
 
 #define calculate_ndist_point(x, norm, avg, sqdev) ((norm) * exp(-pow(((x) - (avg)), 2) / (2 * (sqdev))))
 
+static __uint128_t amath_factorial(__uint128_t x) {
+  if (x == 0) return 1;
+  return amath_factorial(x - 1) * x;
+}
+
 void *calculation_segment(void *data) {
   struct calc_segment *segment = (struct calc_segment *)data;
   size_t lim_a = segment->interval_a, lim_b = segment->interval_b;
@@ -86,15 +91,17 @@ double *amath_pdist(int *data, double lambda, size_t n_elements, size_t n_thread
   double *pdist = malloc(sizeof(double) * n_elements);
   if (pdist == NULL) return NULL;
 
-  pthread_t threads[n_threads];
-  struct pdist_segment segments[n_threads];
-  int step = n_elements / n_threads;
-  for (size_t i = 0; i < n_threads; i++) {
+  size_t num_threads = n_threads >= n_elements ? n_threads : n_elements;
+
+  pthread_t threads[num_threads];
+  struct pdist_segment segments[num_threads];
+  int step = n_elements / num_threads;
+  for (size_t i = 0; i < num_threads; i++) {
     segments[i].data = data;
     segments[i].lambda = lambda;
     segments[i].pdist = pdist;
     segments[i].interval_a = step * i;
-    if (i < n_threads - 1) {
+    if (i < num_threads - 1) {
       segments[i].interval_b = step + step * i;
     } else {
       segments[i].interval_b = n_elements;

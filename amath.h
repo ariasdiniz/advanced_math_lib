@@ -149,16 +149,6 @@ double amath_stdev(double *data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
-Factorial
-*/
-
-/*
-  Calculates the factorial of x.
-*/
-unsigned long long amath_factorial(unsigned long long x);
-
-/*
-----------------------------------------------------------------------------------
 Normal Distribution
 */
 
