@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# This script compiles and install the http_client library. 
-# Use it only if your Operating System is Linux and you have the gcc compiler installed.
+# This script compiles and install the amath library. 
+# Use it only if your Operating System is Unix-based and you have the gcc compiler installed.
 
 check_error () {
   if [[ $? != 0 ]]; then
