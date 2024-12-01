@@ -21,10 +21,9 @@ static void *calc_xn(void *arg) {
   size_t start = temp->index_start;
   size_t end = temp->index_end;
   size_t size = temp->size;
-  double complex total;
 
   for (size_t k = start; k < end; k++) {
-    total = 0;
+    double complex total = 0;
     for (size_t j = 0; j < size; j++) {
       total += transform_element(arr[j], k, j, size);
     }
@@ -37,43 +36,46 @@ int amath_dft(double complex *data, size_t size, size_t n_threads) {
   if (data == NULL || size == 0 || n_threads == 0) {
     return -1;
   }
-  pthread_t threads[n_threads];
-  double complex *transform = malloc(sizeof(double complex) * size);
 
-  if (transform == NULL) {
+  double complex *transform;
+  if (posix_memalign((void **)&transform, 64, sizeof(double complex) * size) != 0) {
     return -1;
   }
 
-  struct ArrayAndItem str[n_threads];
-  size_t times = floor(size / n_threads);
-  size_t remaining = size - (times * n_threads);
-  
-  for (unsigned int i = 0; i < n_threads; i++) {
+  struct ArrayAndItem *str;
+  if (posix_memalign((void **)&str, 64, sizeof(struct ArrayAndItem) * n_threads) != 0) {
+    free(transform);
+    return -1;
+  }
+
+  pthread_t threads[n_threads];
+  size_t step = size / n_threads;
+  size_t remaining = size % n_threads;
+
+  for (size_t i = 0; i < n_threads; i++) {
     str[i].array = data;
     str[i].transform = transform;
     str[i].size = size;
-  }
+    str[i].index_start = i * step;
+    str[i].index_end = (i + 1) * step + (i == n_threads - 1 ? remaining : 0);
 
-  for (unsigned int k = 0; k < n_threads; k++) {
-    str[k].index_start = k * times;
-    str[k].index_end = (k + 1) * times;
-    if (k == n_threads - 1) str[k].index_end += remaining;
-
-    if (pthread_create(&threads[k], NULL, calc_xn, &str[k]) != 0) {
+    if (pthread_create(&threads[i], NULL, calc_xn, &str[i]) != 0) {
       free(transform);
+      free(str);
       return -1;
     }
   }
-  
-  for (unsigned int k = 0; k < n_threads; k++) {
-    pthread_join(threads[k], NULL);
+
+  for (size_t i = 0; i < n_threads; i++) {
+    pthread_join(threads[i], NULL);
   }
 
-  for (unsigned int i = 0; i < size; i++) {
+  for (size_t i = 0; i < size; i++) {
     data[i] = transform[i];
   }
 
   free(transform);
+  free(str);
   return 0;
 }
 
@@ -84,12 +86,13 @@ static void *calc_inverse_xn(void *data) {
   size_t index_start = d->index_start, index_end = d->index_end, size = d->size;
   double complex *arr = d->array;
   double complex *inverse_transform = d->transform;
+
   for (size_t i = index_start; i < index_end; i++) {
-    inverse_transform[i] = 0;
+    double complex total = 0;
     for (size_t k = 0; k < size; k++) {
-      inverse_transform[i] += inverse_element(arr[k], i, k, size);
+      total += inverse_element(arr[k], i, k, size);
     }
-    inverse_transform[i] /= size;
+    inverse_transform[i] = total / size;
   }
   return NULL;
 }
@@ -97,33 +100,43 @@ static void *calc_inverse_xn(void *data) {
 int amath_inverse_dft(double complex *data, size_t size, size_t n_threads) {
   if (data == NULL || size == 0 || n_threads == 0) return -1;
 
-  double complex *inverse_transform = malloc(sizeof(double complex) * size);
-  if (inverse_transform == NULL) return -1;
+  double complex *inverse_transform;
+  if (posix_memalign((void **)&inverse_transform, 64, sizeof(double complex) * size) != 0) {
+    return -1;
+  }
 
-  struct ArrayAndItem transform[n_threads];
+  struct ArrayAndItem *transform;
+  if (posix_memalign((void **)&transform, 64, sizeof(struct ArrayAndItem) * n_threads) != 0) {
+    free(inverse_transform);
+    return -1;
+  }
+
   pthread_t threads[n_threads];
   size_t step = size / n_threads;
+
   for (size_t i = 0; i < n_threads; i++) {
     transform[i].array = data;
     transform[i].index_start = step * i;
+    transform[i].index_end = (i < n_threads - 1) ? step * (i + 1) : size;
     transform[i].size = size;
     transform[i].transform = inverse_transform;
-    if (i < n_threads - 1) {
-      transform[i].index_end = step + step * i;
-    } else {
-      transform[i].index_end = size;
-    }
+
     if (pthread_create(&threads[i], NULL, calc_inverse_xn, &transform[i]) != 0) {
       free(inverse_transform);
+      free(transform);
       return -1;
     }
   }
+
   for (size_t i = 0; i < n_threads; i++) {
     pthread_join(threads[i], NULL);
   }
+
   for (size_t i = 0; i < size; i++) {
     data[i] = inverse_transform[i];
   }
+
   free(inverse_transform);
+  free(transform);
   return 0;
 }
