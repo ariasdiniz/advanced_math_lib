@@ -11,11 +11,6 @@ struct calc_segment {
 
 #define calculate_ndist_point(x, norm, avg, sqdev) ((norm) * exp(-pow(((x) - (avg)), 2) / (2 * (sqdev))))
 
-static __uint128_t amath_factorial(__uint128_t x) {
-  if (x == 0) return 1;
-  return amath_factorial(x - 1) * x;
-}
-
 void *calculation_segment(void *data) {
   struct calc_segment *segment = (struct calc_segment *)data;
   size_t lim_a = segment->interval_a, lim_b = segment->interval_b;
@@ -72,7 +67,7 @@ struct pdist_segment {
   double *pdist;
 };
 
-#define calculate_pdist_point(k, lambda) (pow((lambda), (k)) * exp(-(lambda)) / amath_factorial(k))
+#define calculate_pdist_point(k, lambda) (pow((lambda), (k)) * exp(-(lambda)) / tgamma(k + 1))
 
 void *calculate_pdist_segment(void *data) {
   struct pdist_segment *segment = (struct pdist_segment *)data;

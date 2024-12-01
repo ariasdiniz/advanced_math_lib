@@ -32,7 +32,6 @@ Currently, libamath includes the following functionalities:
 
 In the future, **libamath** will be extended with additional features, including:
 
-- **BigInt Factorial**: A new factorial function utilizing BigInt to handle large numbers more efficiently, which will improve support for the Poisson distribution and other related calculations.
 - **Variance Calculation**: Useful alongside the standard deviation.
 - **Covariance**: For measuring how two datasets vary together.
 - **Linear Regression**: For modeling relationships between variables.
