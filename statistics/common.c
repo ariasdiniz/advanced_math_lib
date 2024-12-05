@@ -24,7 +24,6 @@ double amath_mean(double *data, size_t n_elements) {
 double amath_median(double *data, size_t n_elements, unsigned int sorted) {
   if (data == NULL || n_elements <= 0) return 0;
 
-  double median = 0;
   if (!sorted) qsort(data, n_elements, sizeof(double), sort_function);
 
   if (n_elements % 2 > 0) {
