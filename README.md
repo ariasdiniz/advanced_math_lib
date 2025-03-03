@@ -36,7 +36,8 @@ In the future, **libamath** will be extended with additional features, including
 - **Covariance**: For measuring how two datasets vary together.
 - **Linear Regression**: For modeling relationships between variables.
 - **Binomial Distribution**: To complement the Poisson distribution.
--  **Gamma Distribution**: Another probability distribution that could be useful in various applications.
+- **Gamma Distribution**: Another probability distribution that could be useful in various applications.
+- **Including more functions to the CLI tool**
 
 ## Installation
 
@@ -47,6 +48,15 @@ git clone git@github.com:ariasdiniz/advanced_math_lib.git
 ```
 
 If you want to install it in your UNIX system you can use the `install.sh` script. It needs superuser access and GCC compiler instaled.
+
+If you have Make installed, you can also build with
+
+```shell
+make
+```
+
+This way you will build the lib's Shared Object and also an executable called `amath`. This executable is a simple command line tool
+to run functions like `stdev`, `mean`, `ndist` and `median` in a stream of data read from STDIN.
 
 ## Usage
 
@@ -127,6 +137,32 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 ```
+
+## CLI Usage
+
+If you want to use the CLI to transform data from the comfort of your terminal, you can build this project using `make`.
+After that, add the executable to your path. The executable need a positional argument to work, alog with a data stream
+through STDIN. The data should be only numbers separated by a line break character.
+
+Example, if you have a file called `data.txt` with only a column of numbers as content, and you want to calculate it's median,
+you can 
+
+```shell
+cat data.txt | amath median
+```
+
+The supported arguments are
+    - median
+    - mean
+    - ndist
+    - stdev
+
+You can also call
+```shell
+amath --help
+```
+
+for more info. In the future I plan to add more functions to this CLI.
 
 ## Contributing
 
