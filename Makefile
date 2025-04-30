@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -O2 -lm -fPIC
+CFLAGS = -Wall -O2 -lm -fPIC -march=native
 
 BUILD = build
 SRCS = $(shell find . -name '*.c' ! -name 'amath.c')
