@@ -7,7 +7,7 @@
 #define HELP "AMath CLI\n"\
              "Aria Diniz - 2025\n\n"\
              "amath [CALC] - will calculate CALC for all values provided to STDIN\n\n"\
-             "[CALC] -> mean, median, stdev, ndist (Normal Distribution)\n"\
+             "[CALC] -> mean, median, stdev, ndist (Normal Distribution), min, max, range, nomalize\n"\
              "This CLI does not handle complex numbers yet.\n"\
 
 #define TF "amath_temp_file.amath"
@@ -59,8 +59,17 @@ static int transform(size_t* count, char* func) {
     printf("%lf\n", amath_stdev(data, *count));
   } else if (strcmp(func, "ndist") == 0) {
     double* dist = amath_ndist(data, *count, 4);
-    for (int i = 0; i < *count; i++) printf("%lf\n", dist[i]);
+    for (size_t i = 0; i < *count; i++) printf("%lf\n", dist[i]);
     free(dist);
+  } else if (strcmp(func, "min") == 0) {
+    printf("%lf\n", amath_min(data, *count));
+  } else if (strcmp(func, "max") == 0) {
+    printf("%lf\n", amath_max(data, *count));
+  } else if (strcmp(func, "range") == 0) {
+    printf("%lf\n", amath_range(data, *count));
+  } else if (strcmp(func, "normalize") == 0) {
+    amath_normalize(data, *count);
+    for (size_t i = 0; i < *count; i++) printf("%lf\n", data[i]);
   } else {
     fprintf(stderr, "Unknown option: %s\n", func);
     free(data);

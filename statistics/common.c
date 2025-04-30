@@ -42,3 +42,34 @@ double amath_stdev(double *data, size_t n_elements) {
   }
   return sqrt(square_sigma / n_elements);
 }
+
+double amath_min(double* data, size_t n_elements) {
+  if (data == NULL || n_elements == 0) return 0;
+  double min = data[0];
+  for (size_t i = 1; i < n_elements; i++) {
+    if (min > data[i]) min = data[i];
+  }
+  return min;
+}
+
+double amath_max(double* data, size_t n_elements) {
+  if (data == NULL || n_elements == 0) return 0;
+  double max = data[0];
+  for (size_t i = 1; i < n_elements; i++) {
+    if (max < data[i]) max = data[i];
+  }
+  return max;
+}
+
+double amath_range(double* data, size_t n_elements) {
+  return amath_max(data, n_elements) - amath_min(data, n_elements);
+}
+
+void amath_normalize(double* data, size_t n_elements) {
+  if (data == NULL || n_elements == 0) return;
+  double min = amath_min(data, n_elements);
+  double range = amath_range(data, n_elements);
+  for (size_t i = 0; i < n_elements; i++) {
+    data[i] = (data[i] - min) / range;
+  }
+}

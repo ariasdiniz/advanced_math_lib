@@ -149,6 +149,46 @@ double amath_stdev(double *data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
+Min
+*/
+
+/*
+  Calculate the minimum value in a double array.
+*/
+double amath_min(double* data, size_t n_elements);
+
+/*
+----------------------------------------------------------------------------------
+Max
+*/
+
+/*
+  Calculate the minimum value in a double array.
+*/
+double amath_max(double* data, size_t n_elements);
+
+/*
+----------------------------------------------------------------------------------
+Range
+*/
+
+/*
+  Calculate the difference between min and max values of the array.
+*/
+double amath_range(double* data, size_t n_elements);
+
+/*
+----------------------------------------------------------------------------------
+Normalize
+*/
+
+/*
+  Normalize the array values between 0 and 1.
+*/
+void amath_normalize(double* data, size_t n_elements);
+
+/*
+----------------------------------------------------------------------------------
 Normal Distribution
 */
 
