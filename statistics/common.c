@@ -72,7 +72,7 @@ void amath_normalize(double* data, size_t n_elements) {
   if (data == NULL || n_elements == 0) return;
   double min = amath_min(data, n_elements);
   double range = amath_range(data, n_elements);
-  if (isnan(range) || isnan(min)) return;
+  if (isnan(range) || isnan(min) || range == 0) return;
 
   for (size_t i = 0; i < n_elements; i++) {
     data[i] = (data[i] - min) / range;

@@ -7,7 +7,7 @@
 #define HELP "AMath CLI\n"\
              "Aria Diniz - 2025\n\n"\
              "amath [CALC] - will calculate CALC for all values provided to STDIN\n\n"\
-             "[CALC] -> mean, median, stdev, ndist (Normal Distribution), min, max, range, nomalize\n"\
+             "[CALC] -> mean, median, stdev, ndist (Normal Distribution), min, max, range, normalize\n"\
              "This CLI does not handle complex numbers yet.\n"\
 
 #define TF "amath_temp_file.amath"
