@@ -121,7 +121,7 @@ Mean
 */
 
 /* Calculates the mean of the first n_elements of the values in the 1D array data.
-   Return 0 if data is NULL or if n_elements <= 0.
+   Return NAN if data is NULL or if n_elements <= 0.
 */
 double amath_mean(double *data, size_t n_elements);
 
@@ -132,7 +132,7 @@ Median
 
 /* Calculates the median of the first n_elements of the values in the 1D array data.
    If sorted is 0, the data will be sorted using QuickSort.
-   Return 0 if data is NULL or if n_elements <= 0.
+   Return NAN if data is NULL or if n_elements <= 0.
 */
 double amath_median(double *data, size_t n_elements, unsigned int sorted);
 
@@ -143,9 +143,43 @@ Standard Deviation
 
 /*
   Calculates the Standard Deviation of the first n_elements of the 1D array data.
-  Return 0 if data is NULL or if n_elements <= 0.
+  Use population = 1 for population stdev. 0 for sample stdev.
+  Return NAN if data is NULL or if n_elements <= 0.
 */
-double amath_stdev(double *data, size_t n_elements);
+double amath_stdev(double *data, unsigned int population, size_t n_elements);
+
+/*
+----------------------------------------------------------------------------------
+Covariance
+*/
+
+/*
+  Calculates the covariance between two datasets.
+  Use population = 1 for population covariance (divide by n),
+  or population = 0 for sample covariance (divide by n-1).
+  Returns NAN on error (e.g. NULL pointers, mismatched sizes, or n_elements <= 1).
+*/
+double amath_covariance(
+  double *data1,        /* pointer to first data array */
+  double *data2,        /* pointer to second data array */
+  unsigned int population, /* 1 = population covariance, 0 = sample covariance */
+  size_t n_elements     /* number of elements in each array */
+);
+/*
+----------------------------------------------------------------------------------
+Pearson Correlation
+*/
+
+/*
+  Calculates the Pearson correlation coefficient between two datasets.
+  Returns a value in [−1, +1], or NAN on error
+  (e.g. NULL pointers, mismatched sizes, or n_elements <= 1).
+*/
+double amath_pcorr(
+  double *data1,      /* pointer to first data array */
+  double *data2,      /* pointer to second data array */
+  size_t n_elements   /* number of elements in each array */
+);
 
 /*
 ----------------------------------------------------------------------------------
@@ -154,6 +188,7 @@ Min
 
 /*
   Calculate the minimum value in a double array.
+  Return NAN if n_elements is 0 or data is NULL.
 */
 double amath_min(double* data, size_t n_elements);
 
@@ -164,6 +199,7 @@ Max
 
 /*
   Calculate the minimum value in a double array.
+  Return NAN if n_elements is 0 or data is NULL.
 */
 double amath_max(double* data, size_t n_elements);
 
@@ -174,6 +210,7 @@ Range
 
 /*
   Calculate the difference between min and max values of the array.
+  Return NAN if n_elements is 0 or data is NULL.
 */
 double amath_range(double* data, size_t n_elements);
 
@@ -183,7 +220,8 @@ Normalize
 */
 
 /*
-  Normalize the array values between 0 and 1.
+  Normalize the array values between 0 and 1. Does not normalize if
+  Range or Min is NAN.
 */
 void amath_normalize(double* data, size_t n_elements);
 

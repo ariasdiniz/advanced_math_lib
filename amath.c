@@ -56,7 +56,7 @@ static int transform(size_t* count, char* func) {
   } else if (strcmp(func, "median") == 0) {
     printf("%lf\n", amath_median(data, *count, 0));
   } else if (strcmp(func, "stdev") == 0) {
-    printf("%lf\n", amath_stdev(data, *count));
+    printf("%lf\n", amath_stdev(data, 1, *count));
   } else if (strcmp(func, "ndist") == 0) {
     double* dist = amath_ndist(data, *count, 4);
     for (size_t i = 0; i < *count; i++) printf("%lf\n", dist[i]);
