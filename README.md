@@ -1,43 +1,48 @@
-# libamath - Advanced Math Library
+## libamath - Advanced Math Library
 
 **libamath** is a C library that provides advanced mathematical functions, with a focus on algorithms for statistical analysis and genetic algorithms. The library is optimized for performance, with multithreaded implementations for various distributions and transforms, making it suitable for computationally intensive tasks.
 
 ## Features
 
-Currently, libamath includes the following functionalities:
-
 ### Genetic Algorithms
-- **Individuals generation**: Create a population of individuals, each with a set of weights. Includes mutation and reproduction mechanisms.
-- **Reproduction**: Replaces low-fitness individuals by reproducing the best-performing individuals, using the mean of their weights.
-- **Mutation**: Randomly alters the weights of individuals based on a mutation probability.
-- **Fitness evaluation**: A user-defined function to evaluate the fitness of each individual in the population.
+
+* **Individuals generation**: Create a population of individuals, each with a set of weights. Includes mutation and reproduction mechanisms.
+* **Reproduction**: Replaces low-fitness individuals by reproducing the best-performing individuals, using the mean of their weights.
+* **Mutation**: Randomly alters the weights of individuals based on a mutation probability.
+* **Fitness evaluation**: A user-defined function to evaluate the fitness of each individual in the population.
 
 ### Statistical Functions
-- **Mean**: Calculate the mean of a dataset.
-- **Median**: Compute the median of a dataset, with an option to pre-sort the data.
-- **Standard Deviation**: Compute the standard deviation of a dataset.
 
-### Kendall Correlation
-- **Kendall's Tau**: Calculate the Kendall rank correlation coefficient between two datasets.
+* **Mean**: Calculate the mean of a dataset. Returns `NAN` on error (NULL pointer or zero length).
+* **Median**: Compute the median of a dataset, with an option to pre-sort the data. Returns `NAN` on error.
+* **Standard Deviation**: Compute the population or sample standard deviation. Returns `NAN` on error.
+* **Covariance**: Measure how two datasets vary together. Returns `NAN` on error`.
+* **Pearson Correlation**: Calculate the Pearson correlation coefficient (r ∈ \[−1, +1]). Returns `NAN` on error.
+* **Kendall's Tau**: Calculate the Kendall rank correlation coefficient between two datasets.
+* **Min**: Return the smallest value in the array. Returns `NAN` on error.
+* **Max**: Return the largest value in the array. Returns `NAN` on error.
+* **Range**: Calculate the range of a dataset (max - min). Returns `NAN` on error.
+* **Normalize**: Normalize a dataset to a specified range, using min-max normalization. Does not normalize if Range is zero or Range or Min are `NAN`.
 
 ### Discrete Fourier Transform (DFT)
-- **DFT**: Perform a Discrete Fourier Transform on a dataset, with multithreading support for faster execution.
-- **Inverse DFT**: Perform an inverse DFT to revert transformed data back to the time domain.
 
-### Normal and Poisson Distributions
-- **Normal Distribution**: Calculate the normal distribution of a dataset, optimized with multithreading.
-- **Poisson Distribution**: Compute the Poisson distribution of a dataset, also supporting multithreading.
+* **DFT**: Perform a Discrete Fourier Transform on a dataset, with multithreading support for faster execution.
+* **Inverse DFT**: Perform an inverse DFT to revert transformed data back to the time domain.
+
+### Probability Distributions
+
+* **Normal Distribution**: Calculate the normal distribution values of a dataset, optimized with multithreading.
+* **Poisson Distribution**: Compute the Poisson distribution of a discrete dataset, also supporting multithreading.
 
 ## Future Work
 
-In the future, **libamath** will be extended with additional features, including:
+Planned enhancements:
 
-- **Variance Calculation**: Useful alongside the standard deviation.
-- **Covariance**: For measuring how two datasets vary together.
-- **Linear Regression**: For modeling relationships between variables.
-- **Binomial Distribution**: To complement the Poisson distribution.
-- **Gamma Distribution**: Another probability distribution that could be useful in various applications.
-- **Including more functions to the CLI tool**
+* **Variance Calculation**: Complement standard deviation with a direct variance function.
+* **Linear Regression**: Model linear relationships between variables.
+* **Binomial Distribution**: Add support for binomial probabilities.
+* **Gamma Distribution**: Provide gamma distribution computations.
+* **CLI Extensions**: Expose `covariance`, `pcorr`, and other new functions in the `amath` command-line tool.
 
 ## Installation
 
@@ -138,34 +143,50 @@ int main(int argc, char *argv[]) {
 }
 ```
 
+## Another Usage
+
+Here’s an example showing covariance and correlation:
+
+```c
+#include <math.h>
+#include <stdio.h>
+#include "amath.h"
+
+int main() {
+    double a[] = {1.0, 2.0, 3.0};
+    double b[] = {2.0, 4.0, 6.0};
+
+    double cov = amath_covariance(a, b, 1, 3);
+    if (isnan(cov)) {
+        return 1;
+    }
+    printf("Covariance: %f\n", cov);
+
+    double r = amath_pcorr(a, b, 3);
+    if (isnan(r)) {
+        return 1;
+    }
+    printf("Pearson r: %f\n", r);
+
+    return 0;
+}
+```
+
 ## CLI Usage
 
-If you want to use the CLI to transform data from the comfort of your terminal, you can build this project using `make`.
-After that, add the executable to your path. The executable need a positional argument to work, alog with a data stream
-through STDIN. The data should be only numbers separated by a line break character.
-
-Example, if you have a file called `data.txt` with only a column of numbers as content, and you want to calculate it's median,
-you can 
+After building, use the `amath` tool to process data streams:
 
 ```shell
 cat data.txt | amath median
 ```
 
-The supported arguments are
-    - median
-    - mean
-    - ndist
-    - stdev
+Supported commands:
 
-You can also call
-```shell
-amath --help
-```
+* `mean`, `median`, `stdev`, `ndist`, `min`, `max`, `range`, `normalize`
 
-for more info. In the future I plan to add more functions to this CLI.
+Future CLI will include `covariance` and `pcorr`.
 
 ## Contributing
 
-Feel free to fork the repository and submit pull requests if you want to contribute new features or improvements.
-If you want a specific function to be implemented or want to report a bug, please open a new Issue.
-Feedback and suggestions for new functions are always welcome!
+Contributions are welcome! Fork the repo and submit a pull request for new features or bug fixes. For issues, please open a GitHub Issue. Feedback and suggestions are always appreciated.
+
