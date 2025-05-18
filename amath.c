@@ -7,7 +7,7 @@
 #define HELP "AMath CLI\n"\
              "Aria Diniz - 2025\n\n"\
              "amath [CALC] - will calculate CALC for all values provided to STDIN\n\n"\
-             "[CALC] -> mean, median, stdev, ndist (Normal Distribution), min, max, range, normalize\n"\
+             "[CALC] -> mean, median, stdev, ndist, min, max, range, normalize, zscore, variance\n"\
              "This CLI does not handle complex numbers yet.\n"\
 
 #define TF "amath_temp_file.amath"
@@ -70,6 +70,12 @@ static int transform(size_t* count, char* func) {
   } else if (strcmp(func, "normalize") == 0) {
     amath_normalize(data, *count);
     for (size_t i = 0; i < *count; i++) printf("%lf\n", data[i]);
+  } else if (strcmp(func, "zscore") == 0) {
+    double* zscore = amath_zscore(data, *count);
+    for (size_t i = 0; i < *count; i++) printf("%lf\n", zscore[i]);
+    free(zscore);
+  } else if (strcmp(func, "variance") == 0 ) {
+    printf("%lf\n", amath_variance(data, *count));
   } else {
     fprintf(stderr, "Unknown option: %s\n", func);
     free(data);
@@ -97,3 +103,4 @@ int main(int argc, char** argv) {
   if (transform(&count, argv[1])) return EXIT_FAILURE;
   return EXIT_SUCCESS;
 }
+

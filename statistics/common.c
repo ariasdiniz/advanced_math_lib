@@ -107,3 +107,28 @@ double amath_pcorr(double* data, double* other, size_t n_elements) {
 
   return covariance / (xstdev * ystdev);
 }
+
+double* amath_zscore(double* data, size_t n_elements) {
+  if (data == NULL || n_elements < 1) return NULL;
+  
+  double stdev = amath_stdev(data, 1, n_elements);
+  if (isnan(stdev)) return NULL;
+  
+  double mean = amath_mean(data, n_elements);
+  if (isnan(mean)) return NULL;
+
+  double* zscore = malloc(sizeof(double) * n_elements);
+  if (zscore == NULL) return NULL;
+  
+  for (size_t i = 0; i < n_elements; i++) {
+    zscore[i] = (data[i] - mean) / stdev;
+  }
+
+  return zscore;
+}
+
+double amath_variance(double *data, size_t n_elements) {
+  if (data == NULL || n_elements < 1) return NAN;
+  return amath_covariance(data, data, 1, n_elements);
+}
+

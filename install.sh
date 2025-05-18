@@ -12,23 +12,8 @@ check_error () {
 
 lib_name='amath'
 
-directory="."
-all_files=""
-
-readarray -t files < <(find "$directory" -type f \( -name "*.c" \))
-
-for file in "${files[@]}"; do
-  gcc -c -fpic $file -o $file.o -I.
-  check_error "Error compiling position independent code."
-  all_files+="$file.o "
-done
-
-gcc -shared -o lib$lib_name.so $all_files
-check_error "Error creating shared object."
-
-for file in "${files[@]}"; do
-  rm -r $file.o
-done
+make -s clean
+make -s
 
 echo "Compilation of lib$lib_name.so finished."
 
@@ -38,6 +23,11 @@ check_error "Error copying shared object to /usr/lib."
 rm -r lib$lib_name.so
 sudo cp $lib_name.h /usr/include
 check_error "Error copying header file to /usr/include."
+
+sudo cp $lib_name /usr/local/bin
+check_error "Error copying executable to /usr/local/bin."
+
+make -s clean
 
 echo "Installation of lib$lib_name finished."
 
