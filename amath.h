@@ -168,7 +168,7 @@ Covariance
   Calculates the covariance between two datasets.
   Use population = 1 for population covariance (divide by n),
   or population = 0 for sample covariance (divide by n-1).
-  Returns NAN on error (e.g. NULL pointers, mismatched sizes, or n_elements <= 1).
+  Returns NAN on error (e.g. NULL pointers, mismatched sizes, or n_elements < 1).
 */
 double amath_covariance(
   double *data1,        

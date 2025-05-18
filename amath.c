@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <error.h>
 #include <string.h>
-#include <time.h>
 
 #define HELP "AMath CLI\n"\
              "Aria Diniz - 2025\n\n"\

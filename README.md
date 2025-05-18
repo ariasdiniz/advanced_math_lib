@@ -24,7 +24,7 @@
 * **Max**: Return the largest value in the array. Returns `NAN` on error.
 * **Range**: Calculate the range of a dataset (max - min). Returns `NAN` on error.
 * **Normalize**: Normalize a dataset to a specified range, using min-max normalization. Does not normalize if Range is zero or Range or Min are `NAN`.
-* **Z-Score**: Calculates de Z-Score (Standard Score) for every element of a dataset. Returns a new array with the zscore of each element, or NULL on error.
+* **Z-Score**: Calculates the Z-Score (Standard Score) for every element of a dataset. Returns a new array with the zscore of each element, or NULL on error.
 
 ### Discrete Fourier Transform (DFT)
 
