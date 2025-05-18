@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -std=gnu17 -Wall -O2 -lm -fPIC -march=native
+CFLAGS = -std=gnu17 -Wall -O3 -lm -fPIC -march=native
 
 BUILD = build
 SRCS = $(shell find . -name '*.c' ! -name 'amath.c')

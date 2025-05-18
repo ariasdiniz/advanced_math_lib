@@ -184,7 +184,7 @@ cat data.txt | amath median
 
 Supported commands:
 
-* `mean`, `median`, `stdev`, `ndist`, `min`, `max`, `range`, `normalize`
+* `mean`, `median`, `stdev`, `ndist`, `min`, `max`, `range`, `normalize`, `zscore`, `variance`
 
 Future CLI will include `covariance` and `pcorr`.
 
