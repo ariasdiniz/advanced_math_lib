@@ -13,7 +13,6 @@
 
 #define BUFFER_SIZE 120
 
-/* Global buffer to hold our timestamp-based temp filename */
 static char TF[64];
 
 static void store_data(size_t* count) {
