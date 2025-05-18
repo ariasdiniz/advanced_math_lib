@@ -1,6 +1,6 @@
 ## libamath - Advanced Math Library
 
-**libamath** is a C library that provides advanced mathematical functions, with a focus on algorithms for statistical analysis and genetic algorithms. The library is optimized for performance, with multithreaded implementations for various distributions and transforms, making it suitable for computationally intensive tasks.
+**libamath** is a C library that provides advanced mathematical functions, with a focus on algorithms for statistical analysis and genetic algorithms. The library is optimized for performance, with multithreaded implementations for various distributions and transforms, making it suitable for computationally intensive tasks. It is originaly built to compile with GNU C 17, but should be compatible with any GNU C version.
 
 ## Features
 
@@ -16,13 +16,15 @@
 * **Mean**: Calculate the mean of a dataset. Returns `NAN` on error (NULL pointer or zero length).
 * **Median**: Compute the median of a dataset, with an option to pre-sort the data. Returns `NAN` on error.
 * **Standard Deviation**: Compute the population or sample standard deviation. Returns `NAN` on error.
-* **Covariance**: Measure how two datasets vary together. Returns `NAN` on error`.
+* **Covariance**: Measure how two datasets vary together. Returns `NAN` on error.
+* **Variance**: Calculates the variance of a dataset. Returns `NAN` on error.
 * **Pearson Correlation**: Calculate the Pearson correlation coefficient (r ∈ \[−1, +1]). Returns `NAN` on error.
 * **Kendall's Tau**: Calculate the Kendall rank correlation coefficient between two datasets.
 * **Min**: Return the smallest value in the array. Returns `NAN` on error.
 * **Max**: Return the largest value in the array. Returns `NAN` on error.
 * **Range**: Calculate the range of a dataset (max - min). Returns `NAN` on error.
 * **Normalize**: Normalize a dataset to a specified range, using min-max normalization. Does not normalize if Range is zero or Range or Min are `NAN`.
+* **Z-Score**: Calculates de Z-Score (Standard Score) for every element of a dataset. Returns a new array with the zscore of each element, or NULL on error.
 
 ### Discrete Fourier Transform (DFT)
 

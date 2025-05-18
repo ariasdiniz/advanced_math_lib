@@ -150,6 +150,17 @@ double amath_stdev(double *data, unsigned int population, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
+Variance
+*/
+
+/*
+  Calculates the variance of the data.
+  Returns NAN on error (e.g. NULL pointers, mismatched sizes, or n_elements <= 1).
+*/
+double amath_variance(double *data, size_t n_elements);
+
+/*
+----------------------------------------------------------------------------------
 Covariance
 */
 
@@ -160,10 +171,10 @@ Covariance
   Returns NAN on error (e.g. NULL pointers, mismatched sizes, or n_elements <= 1).
 */
 double amath_covariance(
-  double *data1,        /* pointer to first data array */
-  double *data2,        /* pointer to second data array */
-  unsigned int population, /* 1 = population covariance, 0 = sample covariance */
-  size_t n_elements     /* number of elements in each array */
+  double *data1,        
+  double *data2,        
+  unsigned int population,
+  size_t n_elements     
 );
 /*
 ----------------------------------------------------------------------------------
@@ -176,9 +187,9 @@ Pearson Correlation
   (e.g. NULL pointers, mismatched sizes, or n_elements <= 1).
 */
 double amath_pcorr(
-  double *data1,      /* pointer to first data array */
-  double *data2,      /* pointer to second data array */
-  size_t n_elements   /* number of elements in each array */
+  double *data1,    
+  double *data2,    
+  size_t n_elements 
 );
 
 /*
@@ -224,6 +235,18 @@ Normalize
   Range or Min is NAN.
 */
 void amath_normalize(double* data, size_t n_elements);
+
+/*
+----------------------------------------------------------------------------------
+Z-Score
+*/
+
+/*
+  Calculates the Z-Score, or Standard Score, of the data, returning
+  a new array with the score of every element, or NULL on error. Don't forget
+  to free the array after usage.
+*/
+double* amath_zscore(double* data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
