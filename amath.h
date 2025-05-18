@@ -123,7 +123,7 @@ Mean
 /* Calculates the mean of the first n_elements of the values in the 1D array data.
    Return NAN if data is NULL or if n_elements <= 0.
 */
-double amath_mean(double *data, size_t n_elements);
+double amath_mean(double* restrict data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ Median
    If sorted is 0, the data will be sorted using QuickSort.
    Return NAN if data is NULL or if n_elements <= 0.
 */
-double amath_median(double *data, size_t n_elements, unsigned int sorted);
+double amath_median(double* restrict data, size_t n_elements, unsigned int sorted);
 
 /*
 ----------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ Standard Deviation
   Use population = 1 for population stdev. 0 for sample stdev.
   Return NAN if data is NULL or if n_elements <= 0.
 */
-double amath_stdev(double *data, unsigned int population, size_t n_elements);
+double amath_stdev(double* restrict data, unsigned int population, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ Variance
   Calculates the variance of the data.
   Returns NAN on error (e.g. NULL pointers, mismatched sizes, or n_elements <= 1).
 */
-double amath_variance(double *data, size_t n_elements);
+double amath_variance(double* data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
@@ -171,8 +171,8 @@ Covariance
   Returns NAN on error (e.g. NULL pointers, mismatched sizes, or n_elements < 1).
 */
 double amath_covariance(
-  double *data1,        
-  double *data2,        
+  double* data1,        
+  double* data2,        
   unsigned int population,
   size_t n_elements     
 );
@@ -187,8 +187,8 @@ Pearson Correlation
   (e.g. NULL pointers, mismatched sizes, or n_elements <= 1).
 */
 double amath_pcorr(
-  double *data1,    
-  double *data2,    
+  double* restrict data1,    
+  double* restrict data2,    
   size_t n_elements 
 );
 
@@ -201,7 +201,7 @@ Min
   Calculate the minimum value in a double array.
   Return NAN if n_elements is 0 or data is NULL.
 */
-double amath_min(double* data, size_t n_elements);
+double amath_min(double* restrict data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
@@ -212,7 +212,7 @@ Max
   Calculate the minimum value in a double array.
   Return NAN if n_elements is 0 or data is NULL.
 */
-double amath_max(double* data, size_t n_elements);
+double amath_max(double* restrict data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
@@ -223,7 +223,7 @@ Range
   Calculate the difference between min and max values of the array.
   Return NAN if n_elements is 0 or data is NULL.
 */
-double amath_range(double* data, size_t n_elements);
+double amath_range(double* restrict data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
@@ -234,7 +234,7 @@ Normalize
   Normalize the array values between 0 and 1. Does not normalize if
   Range or Min is NAN.
 */
-void amath_normalize(double* data, size_t n_elements);
+void amath_normalize(double* restrict data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------
@@ -246,7 +246,7 @@ Z-Score
   a new array with the score of every element, or NULL on error. Don't forget
   to free the array after usage.
 */
-double* amath_zscore(double* data, size_t n_elements);
+double* amath_zscore(double* restrict data, size_t n_elements);
 
 /*
 ----------------------------------------------------------------------------------

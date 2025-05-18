@@ -4,15 +4,15 @@
 #include <stdlib.h>
 
 static int sort_function(const void *a, const void *b) {
-  double first = *(double *)a;
-  double second = *(double *)b;
+  double first = *(double*)a;
+  double second = *(double*)b;
 
   if (first > second) return -1;
   if (second > first) return 1;
   return 0;
 }
 
-double amath_mean(double *data, size_t n_elements) {
+double amath_mean(double* restrict data, size_t n_elements) {
   if (data == NULL || n_elements == 0) return NAN;
 
   double mean = 0;
@@ -22,7 +22,7 @@ double amath_mean(double *data, size_t n_elements) {
   return mean / n_elements;
 }
 
-double amath_median(double *data, size_t n_elements, unsigned int sorted) {
+double amath_median(double* restrict data, size_t n_elements, unsigned int sorted) {
   if (data == NULL || n_elements <= 0) return NAN;
 
   if (!sorted) qsort(data, n_elements, sizeof(double), sort_function);
@@ -34,7 +34,7 @@ double amath_median(double *data, size_t n_elements, unsigned int sorted) {
   }
 }
 
-double amath_stdev(double *data, unsigned int population, size_t n_elements) {
+double amath_stdev(double* restrict data, unsigned int population, size_t n_elements) {
   if (data == NULL || n_elements == 0) return NAN;
   int bessel_correction = population ? 0 : 1;
   
@@ -45,7 +45,7 @@ double amath_stdev(double *data, unsigned int population, size_t n_elements) {
   return sqrt(square_sigma / (n_elements - bessel_correction));
 }
 
-double amath_min(double* data, size_t n_elements) {
+double amath_min(double* restrict data, size_t n_elements) {
   if (data == NULL || n_elements == 0) return NAN;
   double min = data[0];
   for (size_t i = 1; i < n_elements; i++) {
@@ -54,7 +54,7 @@ double amath_min(double* data, size_t n_elements) {
   return min;
 }
 
-double amath_max(double* data, size_t n_elements) {
+double amath_max(double* restrict data, size_t n_elements) {
   if (data == NULL || n_elements == 0) return NAN;
   double max = data[0];
   for (size_t i = 1; i < n_elements; i++) {
@@ -63,12 +63,12 @@ double amath_max(double* data, size_t n_elements) {
   return max;
 }
 
-double amath_range(double* data, size_t n_elements) {
+double amath_range(double* restrict data, size_t n_elements) {
   if (data == NULL || n_elements < 1) return NAN;
   return amath_max(data, n_elements) - amath_min(data, n_elements);
 }
 
-void amath_normalize(double* data, size_t n_elements) {
+void amath_normalize(double* restrict data, size_t n_elements) {
   if (data == NULL || n_elements == 0) return;
   double min = amath_min(data, n_elements);
   double range = amath_range(data, n_elements);
@@ -96,7 +96,7 @@ double amath_covariance(double* data, double* other, unsigned int population, si
   return sum / (n_elements - bessel_correction);
 }
 
-double amath_pcorr(double* data, double* other, size_t n_elements) {
+double amath_pcorr(double* restrict data, double* restrict other, size_t n_elements) {
   if (data == NULL || other == NULL || n_elements < 1) return NAN;
   double covariance = amath_covariance(data, other, 1, n_elements);
   double xstdev = amath_stdev(data, 1, n_elements);
@@ -108,7 +108,7 @@ double amath_pcorr(double* data, double* other, size_t n_elements) {
   return covariance / (xstdev * ystdev);
 }
 
-double* amath_zscore(double* data, size_t n_elements) {
+double* amath_zscore(double* restrict data, size_t n_elements) {
   if (data == NULL || n_elements < 1) return NULL;
   
   double stdev = amath_stdev(data, 1, n_elements);
@@ -127,7 +127,7 @@ double* amath_zscore(double* data, size_t n_elements) {
   return zscore;
 }
 
-double amath_variance(double *data, size_t n_elements) {
+double amath_variance(double* data, size_t n_elements) {
   if (data == NULL || n_elements < 1) return NAN;
   return amath_covariance(data, data, 1, n_elements);
 }
