@@ -1,5 +1,5 @@
 #include "../amath.h"
-#include <stdio.h>
+#include <stdlib.h>
 
 double amath_dprod(double* restrict vector1, double* restrict vector2, size_t n_elements) {
   double prod = 0;
