@@ -36,15 +36,16 @@
 * **Normal Distribution**: Calculate the normal distribution values of a dataset, optimized with multithreading.
 * **Poisson Distribution**: Compute the Poisson distribution of a discrete dataset, also supporting multithreading.
 
+### Linear Algebra
+
+* **Dot Product**: Calculate the dot product between two same sized arrays.
+* **Cross Product**: Calculate the cross product between two arrays with three elements, returnung a new array.
+
 ## Future Work
 
 Planned enhancements:
 
-* **Variance Calculation**: Complement standard deviation with a direct variance function.
-* **Linear Regression**: Model linear relationships between variables.
-* **Binomial Distribution**: Add support for binomial probabilities.
-* **Gamma Distribution**: Provide gamma distribution computations.
-* **CLI Extensions**: Expose `covariance`, `pcorr`, and other new functions in the `amath` command-line tool.
+Functions related to linear algebra, calculus and differential equations will be implemented in the future.
 
 ## Installation
 
@@ -185,8 +186,6 @@ cat data.txt | amath median
 Supported commands:
 
 * `mean`, `median`, `stdev`, `ndist`, `min`, `max`, `range`, `normalize`, `zscore`, `variance`
-
-Future CLI will include `covariance` and `pcorr`.
 
 ## Contributing
 

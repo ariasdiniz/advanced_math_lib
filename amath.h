@@ -285,4 +285,15 @@ Dot Product
 */
 double amath_dprod(double* restrict vector1, double* restrict vector2, size_t n_elements);
 
+/*
+----------------------------------------------------------------------------------
+Cross Product
+*/
+
+/*
+ Calculates the cross product of two same-sized vectors. Returns a new array with
+ the resultant vector, or NAN on error. DOn't forget to free the memory of the result.
+*/
+double* amath_cprod(double* restrict vector1, double* restrict vector2, size_t n_elements);
+
 #endif  // __ADVANCED_MATH_LIB
