@@ -1,9 +1,9 @@
 #include "amath.h"
+#include <complex.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <error.h>
 #include <string.h>
-#include <time.h>
 
 #define HELP "AMath CLI\n"\
              "Aria Diniz - 2025\n\n"\
@@ -12,62 +12,34 @@
              "This CLI does not handle complex numbers yet.\n"\
 
 #define BUFFER_SIZE 120
+#define DATA_CAPACITY 10000
 
-static char TF[64];
-
-static void store_data(size_t* count) {
+static double* store_data(size_t* count) {
   char buffer[BUFFER_SIZE];
-  double temp_n;
-  FILE* temp = fopen(TF, "w");
-  if (!temp) {
-    perror("fopen");
+  int realloc_count = 1;
+  double* data = malloc(sizeof(double) * DATA_CAPACITY);
+  if (!data) {
+    perror("Error allocating memory to parse data");
     exit(EXIT_FAILURE);
   }
   while (fgets(buffer, BUFFER_SIZE, stdin) != NULL) {
+    data[*count] = atof(buffer);
     *count += 1;
-    temp_n = atof(buffer);
-    fprintf(temp, "%lf\n", temp_n);
-  }
-  fclose(temp);
-}
-
-static double* allocate(size_t* count) {
-  double* data = malloc(sizeof(double) * *count);
-  if (data == NULL) {
-    fprintf(stderr, "Error allocating memory for data processing.\n");
-    return NULL;
+    if (*count == DATA_CAPACITY * realloc_count) {
+      realloc_count *= 2;
+      double* check = realloc(data, sizeof(double) * DATA_CAPACITY * realloc_count);
+      if (!check) {
+        free(data);
+        perror("Error allocating memory to parse data");
+        exit(EXIT_FAILURE);
+      }
+      data = check;
+    }
   }
   return data;
 }
 
-static void read(FILE* temp, double* data, size_t* count) {
-  char buffer[BUFFER_SIZE];
-  for (size_t i = 0; i < *count; i++) {
-    if (fgets(buffer, BUFFER_SIZE, temp) == NULL) {
-      fprintf(stderr,  "Error parsing data.\n");
-      break;
-    }
-    data[i] = atof(buffer);
-  }
-}
-
-static int transform(size_t* count, char* func) {
-  FILE* temp = fopen(TF, "r");
-  if (!temp) {
-    perror("fopen");
-    return EXIT_FAILURE;
-  }
-
-  double* data = allocate(count);
-  if (data == NULL) {
-    fclose(temp);
-    remove(TF);
-    return EXIT_FAILURE;
-  }
-
-  read(temp, data, count);
-  fclose(temp);
-  remove(TF);
+static int transform(double* data, size_t* count, char* func) {
 
   if (strcmp(func, "mean") == 0) {
     printf("%lf\n", amath_mean(data, *count));
@@ -114,18 +86,8 @@ int main(int argc, char** argv) {
     return EXIT_SUCCESS;
   }
 
-  struct timespec ts;
-  if (clock_gettime(CLOCK_REALTIME, &ts) != 0) {
-    perror("clock_gettime");
-    return EXIT_FAILURE;
-  }
-  snprintf(TF, sizeof(TF),
-           "amath_temp_%ld_%09ld.amath",
-           (long)ts.tv_sec,
-           ts.tv_nsec);
-
   size_t count = 0;
-  store_data(&count);
-  return transform(&count, argv[1]);
+  double* data = store_data(&count);
+  return transform(data, &count, argv[1]);
 }
 
