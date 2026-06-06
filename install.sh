@@ -10,21 +10,39 @@ check_error () {
   fi
 }
 
+if [[ $sysname.eq."Darwin" ]]; then
+  extname="dylib"
+elif [[ $sysname.eq."Linux" ]]; then
+  extname="so"
+else
+  echo "This library works only on Linux or MacOS systems."
+  exit 1
+fi
+
 lib_name='amath'
+
+echo "Starting compilation of lib$lib_name"
 
 make -s clean
 make -s
 
-echo "Compilation of lib$lib_name.so finished."
+sysname=`uname -s`
 
-sudo cp lib$lib_name.so /usr/lib
+echo "Compilation of lib$lib_name.$extname finished."
+echo "Copying lib$lib_name to /usr/local/lib"
+
+sudo cp lib$lib_name.$extname /usr/local/lib/
 check_error "Error copying shared object to /usr/lib." 
 
-rm -r lib$lib_name.so
-sudo cp $lib_name.h /usr/include
+rm -r lib$lib_name.$extname
+echo "Copying header to /usr/local/include"
+
+sudo cp $lib_name.h /usr/local/include/
 check_error "Error copying header file to /usr/include."
 
-sudo cp $lib_name /usr/local/bin
+echo "Copying executable to /usr/local/bin"
+
+sudo cp $lib_name /usr/local/bin/
 check_error "Error copying executable to /usr/local/bin."
 
 make -s clean

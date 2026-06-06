@@ -63,6 +63,8 @@ If you have Make installed, you can also build with
 make
 ```
 
+**For MacOS systems, usually `gcc` is only an alias for Clang. Since this Makefile is configured for GCC, you should change the `CC` variable to `gcc-15` instead of `gcc`. Ensure you have GCC installed before running.**
+
 This way you will build the lib's Shared Object and also an executable called `amath`. This executable is a simple command line tool
 to run functions like `stdev`, `mean`, `ndist` and `median` in a stream of data read from STDIN.
 

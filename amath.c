@@ -2,7 +2,6 @@
 #include <complex.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <error.h>
 #include <string.h>
 
 #define HELP "AMath CLI\n"\
